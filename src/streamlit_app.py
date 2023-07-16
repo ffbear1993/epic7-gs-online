@@ -44,12 +44,10 @@ def main():
 
     st.warning("【1920*1080】模拟器【320dpi】全屏截取【管理装备】页面的装备")
     screenshot = st.file_uploader("【1920*1080】模拟器【320dpi】全屏截取【管理装备】页面的装备", label_visibility="collapsed")
-
-    if len(screenshot) == 1:
+    if screenshot is not None:
         screenshot = Image.open(screenshot)
         chopped_screenshot = screenshot.crop([35, 190, 500, 885 + 190])
         st.session_state.screenshot = screenshot
-
     else:
         chopped_screenshot = Image.fromarray(np.ones([885, 465]).astype("uint8"), "L")
 
