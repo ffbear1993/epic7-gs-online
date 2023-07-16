@@ -1,0 +1,53 @@
+{
+  "gear": {
+    "武器": "Weapon",
+    "头盔": "Helmet",
+    "铠甲": "Armor",
+    "项链": "Necklace",
+    "戒指": "Ring",
+    "鞋子": "Boots",
+    "空值": null
+  },
+  "rank": {
+    "传说": "Epic",
+    "英雄": "Heroic",
+    "空值": null
+  },
+  "set": {
+    "速度套装": "SpeedSet",
+    "攻击套装": "AttackSet",
+    "破灭套装": "DestructionSet",
+    "吸血套装": "LifestealSet",
+    "反击套装": "CounterSet",
+    "愤怒套装": "RageSet",
+    "生命值套装": "HealthSet",
+    "防御套装": "DefenseSet",
+    "暴击套装": "CriticalSet",
+    "命中套装": "HitSet",
+    "抵抗套装": "ResistSet",
+    "夹攻套装": "UnitySet",
+    "免疫套装": "ImmunitySet",
+    "穿透套装": "PenetrationSet",
+    "伤口套装": "InjurySet",
+    "复仇套装": "RevengeSet",
+    "守护套装": "ProtectionSet",
+    "激流套装": "TorrentSet",
+    "空值": null
+  },
+  "stat_type": {
+    "生命值": "Health",
+    "攻击力": "Attack",
+    "防御力": "Defense",
+    "速度": "Speed",
+    "暴击率": "CriticalHitChancePercent",
+    "暴击伤害": "CriticalHitDamagePercent",
+    "效果命中": "EffectivenessPercent",
+    "效果抗性": "EffectResistancePercent",
+    "生命值百分比": "HealthPercent",
+    "攻击力百分比": "AttackPercent",
+    "防御力百分比": "DefensePercent",
+    "空值": null
+  },
+  "level": [75, 80, 85, 88, 90, -1],
+  "enhance": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, -1]
+}
