@@ -70,20 +70,23 @@ def analyze_classify():
         if len(list(st.session_state.classify_stragety.items())) == 5:
             for key, value in st.session_state.classify_stragety.items():
                 if gear_score >= value[0] and gear_score <= value[1]:
-                    st.session_state.info += f'该装备的【装备分{gear_score}】满足【{key}】条件【{value}】'
+                    st.session_state.info += f'该装备的【装备分{gear_score}】满足【{key}】条件{value}'
+                    break
             else:
                 st.session_state.info += f'该装备的【装备分{gear_score}】过低，低于最小评级标准分数【{list(st.session_state.classify_stragety.items())[0][1][0]}】'
         else:
             if st.session_state.gear_info.rank == 'Epic':
                 for key, value in st.session_state.classify_stragety["红装"].items():
                     if gear_score >= value[0] and gear_score <= value[1]:
-                        st.session_state.info += f'该装备的【装备分{gear_score}】满足【{key}】条件【{value}】'
+                        st.session_state.info += f'该装备的【装备分{gear_score}】满足【{key}】条件{value}'
+                        break
                 else:
                     st.session_state.info += f'该装备的【装备分{gear_score}】过低，低于最小评级标准分数【{list(st.session_state.classify_stragety["红装"].items())[0][1][0]}】'
             if st.session_state.gear_info.rank == 'Heroic':
                 for key, value in st.session_state.classify_stragety["紫装"].items():
                     if gear_score >= value[0] and gear_score <= value[1]:
-                        st.session_state.info += f'该装备的【装备分{gear_score}】满足【{key}】条件【{value}】'
+                        st.session_state.info += f'该装备的【装备分{gear_score}】满足【{key}】条件{value}'
+                        break
                 else:
                     st.session_state.info += f'该装备的【装备分{gear_score}】过低，低于最小评级标准分数【{list(st.session_state.classify_stragety["紫装"].items())[0][1][0]}】'
         if speed >= 19:

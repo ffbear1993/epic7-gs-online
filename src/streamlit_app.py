@@ -2,6 +2,7 @@ import streamlit as st
 from data import GearItem, Substats, Main
 from PIL import Image
 import numpy as np
+import pandas as pd
 
 from button_func import (
     clear_gear_info,
@@ -43,10 +44,12 @@ def main():
 
     st.warning("【1920*1080】模拟器【320dpi】全屏截取【管理装备】页面的装备")
     screenshot = st.file_uploader("【1920*1080】模拟器【320dpi】全屏截取【管理装备】页面的装备", label_visibility="collapsed")
-    if screenshot is not None:
+
+    if len(screenshot) == 1:
         screenshot = Image.open(screenshot)
         chopped_screenshot = screenshot.crop([35, 190, 500, 885 + 190])
         st.session_state.screenshot = screenshot
+
     else:
         chopped_screenshot = Image.fromarray(np.ones([885, 465]).astype("uint8"), "L")
 
@@ -62,75 +65,105 @@ def main():
         gear_info_row_top_left, gear_info_row_top_right = st.columns(2)
 
         with gear_info_row_top_left:
-            st.selectbox(
-                "装备类型",
-                options=st.session_state.gear_config["gear"],
-                key="selectbox_gear_gear",
-                index=list(st.session_state.gear_config["gear"].values()).index(st.session_state.gear_info.gear),
-                on_change=on_change_gear_info,
-            )
-            st.selectbox(
-                "装备品质",
-                options=st.session_state.gear_config["rank"],
-                key="selectbox_gear_rank",
-                index=list(st.session_state.gear_config["rank"].values()).index(st.session_state.gear_info.rank),
-                on_change=on_change_gear_info,
-            )
-            st.selectbox(
-                "装备强化",
-                options=st.session_state.gear_config["enhance"],
-                key="selectbox_gear_enhance",
-                index=st.session_state.gear_config["enhance"].index(st.session_state.gear_info.enhance),
-                on_change=on_change_gear_info,
-            )
+            try:
+                st.selectbox(
+                    "装备类型",
+                    options=st.session_state.gear_config["gear"],
+                    key="selectbox_gear_gear",
+                    index=list(st.session_state.gear_config["gear"].values()).index(st.session_state.gear_info.gear),
+                    on_change=on_change_gear_info,
+                )
+            except Exception as e:
+                st.session_state['selectbox_gear_gear'] = list(st.session_state.gear_config["gear"].values())[0]
+
+            try:    
+                st.selectbox(
+                    "装备品质",
+                    options=st.session_state.gear_config["rank"],
+                    key="selectbox_gear_rank",
+                    index=list(st.session_state.gear_config["rank"].values()).index(st.session_state.gear_info.rank),
+                    on_change=on_change_gear_info,
+                )
+            except Exception as e:
+                st.session_state['selectbox_gear_rank'] = list(st.session_state.gear_config["rank"].values())[0]
+
+            try:
+                st.selectbox(
+                    "装备强化",
+                    options=st.session_state.gear_config["enhance"],
+                    key="selectbox_gear_enhance",
+                    index=st.session_state.gear_config["enhance"].index(st.session_state.gear_info.enhance),
+                    on_change=on_change_gear_info,
+                )
+            except Exception as e:
+                st.session_state['selectbox_gear_enhance'] = st.session_state.gear_config["enhance"][0]
 
         with gear_info_row_top_right:
-            st.selectbox(
-                "装备等级",
-                options=st.session_state.gear_config["level"],
-                key="selectbox_gear_level",
-                index=st.session_state.gear_config["level"].index(st.session_state.gear_info.level),
-                on_change=on_change_gear_info,
-            )
-            st.selectbox(
-                "装备套装",
-                options=st.session_state.gear_config["set"],
-                key="selectbox_gear_set",
-                index=list(st.session_state.gear_config["set"].values()).index(st.session_state.gear_info.set),
-                on_change=on_change_gear_info,
-            )
+            try:
+                st.selectbox(
+                    "装备等级",
+                    options=st.session_state.gear_config["level"],
+                    key="selectbox_gear_level",
+                    index=st.session_state.gear_config["level"].index(st.session_state.gear_info.level),
+                    on_change=on_change_gear_info,
+                )
+            except Exception as e:
+                st.session_state['selectbox_gear_level'] = st.session_state.gear_config["level"][0]
+
+            try:
+                st.selectbox(
+                    "装备套装",
+                    options=st.session_state.gear_config["set"],
+                    key="selectbox_gear_set",
+                    index=list(st.session_state.gear_config["set"].values()).index(st.session_state.gear_info.set),
+                    on_change=on_change_gear_info,
+                )
+            except Exception as e:
+                st.session_state['selectbox_gear_set'] = list(st.session_state.gear_config["set"].values())[0]
 
         gear_info_row_middle_left, gear_info_row_middle_right = st.columns(2)
 
         with gear_info_row_middle_left:
-            st.selectbox(
-                "装备主属性",
-                options=st.session_state.gear_config["stat_type"].keys(),
-                key="selectbox_main_type",
-                index=list(st.session_state.gear_config["stat_type"].values()).index(st.session_state.gear_info.main.type),
-                on_change=on_change_gear_info,
-            )
+            try:
+                st.selectbox(
+                    "装备主属性",
+                    options=st.session_state.gear_config["stat_type"].keys(),
+                    key="selectbox_main_type",
+                    index=list(st.session_state.gear_config["stat_type"].values()).index(st.session_state.gear_info.main.type),
+                    on_change=on_change_gear_info,
+                )
+            except Exception as e:
+                st.session_state["selectbox_main_type"] = list(st.session_state.gear_config["stat_type"].values())[0]
 
         with gear_info_row_middle_right:
-            st.number_input("装备主属性的值", step=1, key="selectbox_main_value", value=st.session_state.gear_info.main.value, on_change=on_change_gear_info)
+            try:
+                st.number_input("装备主属性的值", step=1, key="selectbox_main_value", value=st.session_state.gear_info.main.value, on_change=on_change_gear_info)
+            except Exception as e:
+                st.session_state['selectbox_main_value'] = 0
 
         gear_info_row_bottom_left, gear_info_row_bottom_right = st.columns(2)
 
         with gear_info_row_bottom_left:
             for i, item in enumerate(st.session_state.gear_info.substats):
-                st.selectbox(
-                    label=f"装备副属性{i+1}",
-                    options=st.session_state.gear_config["stat_type"].keys(),
-                    key=f"selectbox_gear_substats_type_{i}",
-                    index=list(st.session_state.gear_config["stat_type"].values()).index(st.session_state.gear_info.substats[i].type),
-                    on_change=on_change_gear_info,
-                )
+                try:
+                    st.selectbox(
+                        label=f"装备副属性{i+1}",
+                        options=st.session_state.gear_config["stat_type"].keys(),
+                        key=f"selectbox_gear_substats_type_{i}",
+                        index=list(st.session_state.gear_config["stat_type"].values()).index(st.session_state.gear_info.substats[i].type),
+                        on_change=on_change_gear_info,
+                    )
+                except Exception as e:
+                    st.session_state[f'selectbox_gear_substats_type_{i}'] = list(st.session_state.gear_config["stat_type"].values())[0]
 
         with gear_info_row_bottom_right:
             for i, item in enumerate(st.session_state.gear_info.substats):
-                st.number_input(
-                    label=f"装备副属性{i+1}的值", step=1, value=item.value, key=f"selectbox_gear_substats_value_{i}", on_change=on_change_gear_info
-                )
+                try:
+                    st.number_input(
+                        label=f"装备副属性{i+1}的值", step=1, value=item.value, key=f"selectbox_gear_substats_value_{i}", on_change=on_change_gear_info
+                    )
+                except Exception as e:
+                    st.session_state[f'selectbox_gear_substats_value_{i}'] = -1
 
     strategy_setting_row = [item for item in st.columns(2)]
 
@@ -172,6 +205,15 @@ def main():
         st.download_button(label="所有装备结果导出", data=json_string, file_name="export.json", mime="application/json", key="5", use_container_width=True)
 
     st.info(st.session_state.info, icon="ℹ️")
+
+    st.markdown(f'{st.session_state["selectbox_enhance_strategy"]}')
+    enhance_strategy_df = pd.DataFrame(np.array(st.session_state.enhance_stragety), index=["+0","+3","+6","+9"])
+    enhance_strategy_df.columns = ["红装速度","红装装备分数","紫装速度","紫装装备分数"]
+    st.table(enhance_strategy_df)
+
+    st.markdown(f'{st.session_state["selectbox_classify_strategy"]}')
+    classify_str = [f'- {key}: {value}' for key, value in st.session_state.classify_stragety.items()]
+    st.markdown('\n'.join(classify_str))
 
 
 if __name__ == "__main__":
