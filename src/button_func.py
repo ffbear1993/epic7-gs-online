@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import ImageDraw
+from PIL import ImageDraw, Image
 import easyocr
 import numpy as np
 import json
@@ -12,6 +12,14 @@ def save_gear_item():
 
 def download():
     pass
+
+def save_multi_gear_item():
+    for screenshot_item in st.session_state.multi_screenshots:
+        screenshot = Image.open(screenshot_item)
+
+        st.session_state.screenshot = screenshot
+        ocr_screenshot()
+        st.session_state.export['items'].append(st.session_state.gear_info.__dict__)
 
 
 
@@ -145,7 +153,7 @@ def ocr_screenshot():
     for item in reader.detect(np.asarray(screenshot))[0][0]:
         box = [item[0], item[2], item[1], item[3]]
         screenshot_item = screenshot.crop(box)
-        # st.image(screenshot_item)
+        st.image(screenshot_item)
 
         is_percentage = False
         if box[0] > 320:
@@ -160,9 +168,9 @@ def ocr_screenshot():
                         is_percentage = True
 
         if is_percentage:
-            result_item = reader.readtext(np.asarray(screenshot_item.crop([0, 0, w - percentage_w, h])), allowlist=allowlist)[0][1] + "%"
+            result_item = reader.readtext(np.asarray(screenshot_item.crop([0, 0, w - percentage_w, h])), allowlist=allowlist, text_threshold=0.5)[0][1] + "%"
         else:
-            result_item = reader.readtext(np.asarray(screenshot_item), allowlist=allowlist)[0][1]
+            result_item = reader.readtext(np.asarray(screenshot_item), allowlist=allowlist, text_threshold=0.5)[0][1]
 
         result.append(result_item)
 

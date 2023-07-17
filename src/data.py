@@ -4,13 +4,13 @@ from typing import List
 
 
 @dataclass
-class Main:
+class Mainstat:
     type: str = None
     value: int = -1
 
 
 @dataclass
-class Substats:
+class Substat:
     type: str = None
     value: int = -1
     rolls: int = None
@@ -52,14 +52,14 @@ class ReforgedStats:
 
 
 @dataclass
-class GearItem:
+class GearInfo:
     gear: str = None
     rank: str = None
     set: str = None
     enhance: int = -1
     level: int = -1
-    main: Main = None
-    substats: List[Substats] = None
+    main: Mainstat = field(init=False)
+    substats: List[Substat] = field(init=False)
     augmentedStats: AugmentedStats = field(init=False)
     reforgedStats: ReforgedStats = field(init=False)
     id: str = field(init=False)
@@ -85,6 +85,8 @@ class GearItem:
         return json.dumps(self.__dict__)
 
     def __post_init__(self):
+        self.main = Mainstat()
+        self.substats = [Substat() for i in range(4)]
         self.augmentedStats = AugmentedStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0)
         self.reforgedStats = ReforgedStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0)
         self.id = ""

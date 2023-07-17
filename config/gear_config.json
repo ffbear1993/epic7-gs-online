@@ -6,12 +6,12 @@
     "项链": "Necklace",
     "戒指": "Ring",
     "鞋子": "Boots",
-    "空值": null
+    "空值": ""
   },
   "rank": {
     "传说": "Epic",
     "英雄": "Heroic",
-    "空值": null
+    "空值": ""
   },
   "set": {
     "速度套装": "SpeedSet",
@@ -32,7 +32,7 @@
     "复仇套装": "RevengeSet",
     "守护套装": "ProtectionSet",
     "激流套装": "TorrentSet",
-    "空值": null
+    "空值": ""
   },
   "stat_type": {
     "生命值": "Health",
@@ -46,8 +46,8 @@
     "生命值百分比": "HealthPercent",
     "攻击力百分比": "AttackPercent",
     "防御力百分比": "DefensePercent",
-    "空值": null
+    "空值": ""
   },
-  "level": [75, 80, 85, 88, 90, -1],
+  "level": [75, 78, 80, 85, 88, 90, -1],
   "enhance": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, -1]
 }

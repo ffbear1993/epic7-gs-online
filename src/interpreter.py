@@ -3,6 +3,7 @@ from data import GearItem, Substats, Main
 import re
 import json
 from fuzzywuzzy import process
+import streamlit as st
 
 
 def build_gear(result: List):
@@ -15,10 +16,16 @@ def build_gear(result: List):
 
     for i, result_item in enumerate(result):
         if i == 0:
-            fuzzy_result = process.extractOne(str(ocr_result_interpreter(result_item, gear_config)), [str(item) for item in gear_config['enhance']])
+            try:
+                fuzzy_result = process.extractOne(str(ocr_result_interpreter(result_item, gear_config)), [str(item) for item in gear_config['enhance']])
+            except Exception as e:
+                fuzzy_result = [0]
             gear.enhance = int(fuzzy_result[0])
         if i == 1:
-            fuzzy_result = process.extractOne(str(ocr_result_interpreter(result_item, gear_config)), [str(item) for item in gear_config['level']])
+            try:
+                fuzzy_result = process.extractOne(str(ocr_result_interpreter(result_item, gear_config)), [str(item) for item in gear_config['level']])
+            except Exception as e:
+                fuzzy_result = [0]
             gear.level = int(fuzzy_result[0])
         if i == 2:
             gear.rank = ocr_result_interpreter(result_item[:2], gear_config, label="rank")
@@ -42,11 +49,15 @@ def build_gear(result: List):
 
 
 def ocr_result_interpreter(result: str, gear_config: Dict, label=""):
-    # st.text(result)
+    st.text(result)
     if label == "":
-        return int("".join(re.findall("\d+", result)))
+        try:
+            result = int("".join(re.findall("\d+", result)))
+        except Exception as e:
+            result = 0
+        return result
     else:
         if "(" in result and ")" in result and "/" in result:
             return gear_config[label].get(result[:-5], f"error_key_{result}")
-
+       
         return gear_config[label].get(result, f"error_key_{result}")
