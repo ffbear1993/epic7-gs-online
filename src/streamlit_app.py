@@ -278,7 +278,23 @@ def main():
     st.title("第七史诗装备导入器")
 
     st.info('装备强化评估和分级评估请到https://e7.d3tekim.top/')
-    st.info('该网站仅用于和Fribble配装器进行对接，支持批量截图OCR')
+    st.info('该网站仅用于和Fribbels配装器进行对接，支持批量截图OCR')
+    
+    uploaded_jsons = st.file_uploader(label="上传装备数据（必须多个文件上传）", accept_multiple_files=True, type=[".json"])
+    if uploaded_jsons is not None:
+        merge_json = {"heroes": [], "items": []}
+        for uploaded_json in uploaded_jsons:
+            data = json.load(uploaded_json)
+            for item in data['heroes']:
+                merge_json['heroes'].append(item)
+            for item in data['items']:
+                merge_json['items'].append(item)
+
+        json_string = json.dumps(merge_json)
+        st.download_button(label="装备数据整合导出", data=json_string, file_name="export.json", mime="application/json", key="merge", use_container_width=True)
+
+
+
     
     uploaded_images = st.file_uploader(label="上传装备截图（可单张/多张上传）", accept_multiple_files=True, type=["png", "jpg", "jpeg"])
 
