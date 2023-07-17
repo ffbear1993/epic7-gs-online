@@ -334,7 +334,7 @@ if __name__ == "__main__":
         st.session_state["gear_crop_config"] = load_json_file("./config/gear_crop_config.json")
 
     if "reader" not in st.session_state:
-        st.session_state["reader"] = easyocr.Reader(["en", "ch_sim"], gpu=True)
+        st.session_state["reader"] = easyocr.Reader(["en", "ch_sim"], gpu=False)
         st.session_state["reader_tasks"] = []
         st.session_state["gears_info"] = []
 
