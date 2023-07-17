@@ -191,6 +191,7 @@ def ocr(image: Image, reader: easyocr.Reader, gear_crop_config: Dict, gear_confi
 
 def build_gears_info_ui(uploaded_images, gears_info: List[GearInfo]):
     for i, (uploaded_image, gear_info) in enumerate(zip(uploaded_images, gears_info)):
+        st.markdown(f'截图序号{i+1}， 文件名：{uploaded_image.name}')
         col_1, col_2 = st.columns(2)
         with col_1:
             image = Image.open(uploaded_image)
